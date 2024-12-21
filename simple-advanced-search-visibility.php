@@ -260,8 +260,9 @@ class SASV_Visibility {
                     $query->set('has_password', $post_has_password);
                 }
 
-                if (empty($filtered_post_types)) {
-                    // Exclude posts based on the sasv_exclude_post meta key.
+                if ($filtered_post_types) {
+                    $query->set('post_type', $filtered_post_types);
+                } else {
                     $excluded_post_types = get_posts([
                         'post_type' => $query->query_vars['post_type'],
                         'meta_key' => 'sasv_exclude_post',
@@ -269,18 +270,15 @@ class SASV_Visibility {
                         'fields' => 'ids',
                     ]);
                     $query->set('post__not_in', $excluded_post_types);
-                } else {
-                    $query->set('post_type', $filtered_post_types);
                 }
             }
 
-            if (($query->is_date() || $query->is_year() || $query->is_month() || $query->is_category() || $query->is_tag() || $query->is_author() || is_archive() || $query->is_home() || $query->is_front_page() || $query->is_404()) && $query->is_main_query()) {
+            if ((($query->is_date() || $query->is_year() || $query->is_month() || $query->is_category() || $query->is_tag() || $query->is_author() || is_archive() || $query->is_home() || $query->is_front_page() || $query->is_404()) && $query->is_main_query()) || $query->is_search()) {
 
                 if (!$query->is_singular()) {
                     $query->set('has_password', $post_has_password);
                 }
 
-                // Exclude posts based on the sasv_exclude_post meta key.
                 $excluded_post_types = get_posts([
                     'post_type' => $query->query_vars['post_type'],
                     'meta_key' => 'sasv_exclude_post',
