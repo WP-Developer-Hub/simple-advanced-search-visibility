@@ -150,15 +150,20 @@ class SASV_Visibility {
         $post_types = get_post_types(['public' => true], 'objects');
         unset($post_types['attachment']); // Exclude attachments
         $excluded_types = get_option('sasv_excluded_post_types', []);
-
+        ?>
+        <div style="display: block; overflow-x: hidden; height: 250px; width: 100%; max-width: 100%; padding: 0 1px;">
+        <?php
         foreach ($post_types as $type => $details) {
             ?>
-            <label>
+            <label style="display: block; padding: 5px 0;">
                 <input type="checkbox" name="sasv_excluded_post_types[]" value="<?php echo esc_attr($type); ?>" <?php checked(in_array($type, (array) $excluded_types)); ?>>
                 <?php echo esc_html($details->label); ?>
-            </label><br>
+            </label>
             <?php
         }
+        ?>
+        </div>
+        <?php
     }
 
     /**
