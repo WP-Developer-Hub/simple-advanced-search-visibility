@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Simple Advanced Search Visibility
  * Description: Search Visibility Simplified - A plugin that excludes post types and individual posts from search results and adds "noindex" meta tags to pages.
- * Version: 1.5
+ * Version: 1.6
  * Author: DJABhipHop
  * Requires PHP: 7.2
  * Requires at least: 6.0
