@@ -134,10 +134,20 @@ class SASV_Visibility {
     public function render_password_protected_field() {
         $value = get_option('sasv_exclude_password_protected', 0);
         ?>
-        <label>
-            <input type="checkbox" name="sasv_exclude_password_protected" value="1" <?php checked($value, 1); ?>>
-            <?php _e('Exclude all password-protected posts from all query for all available post types.', 'sas-visibility'); ?>
-        </label>
+        <table class="wp-list-table widefat fixed striped table-view-list posts">
+            <tbody id="the-list">
+                <tr>
+                    <th scope="row" class="check-column" style="width: 0.2rem;"></th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="sasv_exclude_password_protected" value="1" <?php checked($value, 1); ?>>
+                            <?php _e('Exclude all password-protected posts from all query for all available post types.', 'sas-visibility'); ?>
+                        </label>
+                    </td>
+                    <th scope="row" class="check-column" style="width: 0.2rem;"></th>
+                </tr>
+            </tbody>
+        </table>
         <?php
     }
 
@@ -152,19 +162,26 @@ class SASV_Visibility {
         $excluded_types = get_option('sasv_excluded_post_types', []);
         ?>
         <div style="display: block; overflow-x: hidden; height: 250px; width: 100%; max-width: 100%; padding: 0 1px;">
-        <?php
-        foreach ($post_types as $type => $details) {
-            ?>
-            <label style="display: block; padding: 5px 0;">
-                <input type="checkbox" name="sasv_excluded_post_types[]" value="<?php echo esc_attr($type); ?>" <?php checked(in_array($type, (array) $excluded_types)); ?>>
-                <?php echo esc_html($details->label); ?>
-            </label>
-            <?php
-        }
-        ?>
+            <table class="wp-list-table widefat fixed striped table-view-list posts">
+                <tbody id="the-list">
+                    <?php foreach ($post_types as $type => $details) : ?>
+                        <tr>
+                            <th scope="row" class="check-column" style="width: 0.2rem;"></th>
+                            <td>
+                                <label for="sasv-exclude-<?php echo esc_attr($type); ?>">
+                                    <input type="checkbox" name="sasv_excluded_post_types[]" value="<?php echo esc_attr($type); ?>" <?php checked(in_array($type, (array) $excluded_types)); ?>>
+                                    <?php echo esc_html($details->label); ?>
+                                </label>
+                            </td>
+                            <th scope="row" class="check-column" style="width: 0.2rem;"></th>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
         <?php
     }
+
 
     /**
      * Add meta boxes.
