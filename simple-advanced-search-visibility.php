@@ -218,23 +218,39 @@ class SASV_Visibility {
      * Render No Index Meta Box.
      */
     public function render_no_index_meta_box($post) {
-        $value = get_post_meta($post->ID, 'sasv_no_index', true);
+        $no_index = get_post_meta($post->ID, 'sasv_no_index', true);
+        $no_iarchive = get_post_meta($post->ID, 'sasv_no_archive', true);
         wp_nonce_field('sasv_no_index_nonce', 'sasv_no_index_nonce');
         ?>
         <div class="main">
             <p>
                 <label for="sasv_no_index">
-                    <strong><?php _e('Allow search engines to index this page', 'sas-visibility'); ?></strong>
+                    <strong><?php _e('Index this page?', 'sas-visibility'); ?></strong>
                 </label>
             </p>
             <p>
                 <select id="sasv_no_index" name="sasv_no_index" class="widefat">
-                    <option value="yes" <?php selected($value, 'yes'); ?>><?php _e('Yes', 'sas-visibility'); ?></option>
-                    <option value="no" <?php selected($value, 'no'); ?>><?php _e('No', 'sas-visibility'); ?></option>
+                    <option value="yes" <?php selected($no_index, 'yes'); ?>><?php _e('Yes', 'sas-visibility'); ?></option>
+                    <option value="no" <?php selected($no_index, 'no'); ?>><?php _e('No', 'sas-visibility'); ?></option>
                 </select>
             </p>
             <p>
                 <?php _e('Selecting <strong>"No"</strong> will prevent this page from being indexed by search engines like Google, Bing, etc.', 'sas-visibility'); ?>
+            </p>
+
+            <p>
+                <label for="sasv_no_index">
+                    <strong><?php _e('Archive this page?', 'sas-visibility'); ?></strong>
+                </label>
+            </p>
+            <p>
+                <select id="sasv_no_archive" name="sasv_no_archive" class="widefat">
+                    <option value="yes" <?php selected($no_iarchive, 'yes'); ?>><?php _e('Yes', 'sas-visibility'); ?></option>
+                    <option value="no" <?php selected($no_iarchive, 'no'); ?>><?php _e('No', 'sas-visibility'); ?></option>
+                </select>
+            </p>
+            <p>
+                <?php _e('Selecting <strong>"No"</strong> will prevent this page from being archive by search engines like Google, Bing, etc.', 'sas-visibility'); ?>
             </p>
         </div>
         <?php
@@ -336,6 +352,12 @@ class SASV_Visibility {
                 } else {
                     delete_post_meta($post_id, 'sasv_no_index');
                 }
+
+                if (isset($_POST['sasv_no_archive'])) {
+                    update_post_meta($post_id, 'sasv_no_archive', sanitize_text_field($_POST['sasv_no_archive']));
+                } else {
+                    delete_post_meta($post_id, 'sasv_no_archive');
+                }
             }
         }
 
@@ -358,9 +380,11 @@ class SASV_Visibility {
 
             if ('no' === get_post_meta($post->ID, 'sasv_no_index', true)) {
                 unset($robots['max-image-preview']);
-                $robots['noindex'] = true;
                 $robots['follow'] = true;
-                return $robots;
+                $robots['noindex'] = true;
+                if ('no' === get_post_meta($post->ID, 'sasv_no_archive', true)) {
+                    $robots['noarchive'] = true;
+                }
             }
         }
         return $robots;
