@@ -37,15 +37,28 @@ Once activated, you can configure the following settings:
 4. ****Exclude Specific Posts****: While editing posts or pages, you can choose to exclude them from search results.
 
 ## Changelog
+= 1.9 =
 
-= 1.6 =
+* Added a new "Archive this page?" option in the No Index meta box UI.
+* Introduced `sasv_no_archive` meta key to store archiving preferences.
+* Updated the meta box render method to include the archive option.
+* Adjusted the save logic to handle the new archive setting.
+* Updated the `wp_robots` filter to respect both noindex and noarchive settings.
+
+
+
+= 1.8 =
+
+* Changed `wp_head` action to `wp_robots` to better control robots meta tag.
+* Updated `add_noindex_meta_tag` to filter the `$robots` array, adding `noindex` and `follow` if the post is set to noindex.
+* Removed `max-image-preview` from robots meta tag when `noindex` is applied.
+
+
 
 = 1.7 =
 
 * Adjusted `wp_head` hook priority for `add_noindex_meta_tag` to `PHP_MAX_INT` to ensure proper placement of the `<meta>` tag within the `<head>` section.
 * Simplified the `add_noindex_meta_tag` method by removing the redundant variable assignment and directly fetching the meta value in the condition.
-
-
 
 
 = 1.6 =
