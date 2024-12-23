@@ -24,7 +24,7 @@ class SASV_Visibility {
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
         add_action('save_post', [$this, 'save_meta_boxes']);
         add_action('pre_get_posts', [$this, 'modify_search_query']);
-        add_action('wp_head', [$this, 'add_noindex_meta_tag']);
+        add_action('wp_head', [$this, 'add_noindex_meta_tag'], PHP_MAX_INT);
         add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'add_settings_link']);
     }
 
@@ -355,9 +355,8 @@ class SASV_Visibility {
     public function add_noindex_meta_tag() {
         if (is_singular()) {
             global $post;
-            $no_index = get_post_meta($post->ID, 'sasv_no_index', true);
 
-            if ('no' === $no_index) {
+            if ('no' === get_post_meta($post->ID, 'sasv_no_index', true)) {
                 echo '<meta name="robots" content="noindex, follow" />' . PHP_EOL;
             }
         }
