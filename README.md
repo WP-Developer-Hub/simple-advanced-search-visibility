@@ -38,6 +38,14 @@ Once activated, you can configure the following settings:
 
 ## Changelog
 
+= 1.6 =
+
+* Adjusted `wp_head` hook priority for `add_noindex_meta_tag` to `PHP_MAX_INT` to ensure proper placement of the `<meta>` tag within the `<head>` section.
+* Simplified the `add_noindex_meta_tag` method by removing the redundant variable assignment and directly fetching the meta value in the condition.
+
+
+
+
 = 1.5 =
 
 * Replaced plain labels and checkboxes with `wp-list-table` styled tables for consistency with WordPress admin UI.
@@ -50,7 +58,7 @@ Once activated, you can configure the following settings:
 
 * Ensured compliance with WordPress styling standards using `wp-list-table` classes.
 
-  
+
 
 = 1.4 =
 
@@ -60,7 +68,7 @@ Once activated, you can configure the following settings:
 
 * Removed unnecessary `<br>` tags for cleaner HTML structure.
 
-  
+
 
 = 1.2 =
 
