@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!class_exists('SASV_Visibility_Settings')) {
-    class SASV_Visibility_Settings {
+if (!class_exists('SAS_Visibility_Settings')) {
+    class SAS_Visibility_Settings {
         public function __construct() {
             add_action('admin_menu', [$this, 'add_settings_page']);
             add_action('admin_init', [$this, 'register_settings']);
@@ -149,5 +149,5 @@ if (!class_exists('SASV_Visibility_Settings')) {
         <?php
         }
     }
-    new SASV_Visibility_Settings();
+    new SAS_Visibility_Settings();
 }

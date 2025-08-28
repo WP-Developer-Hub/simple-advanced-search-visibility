@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!class_exists('SASV_Visibility_Meta_Boxes')) {
-    class SASV_Visibility_Meta_Boxes {
+if (!class_exists('SAS_Visibility_Meta_Boxes')) {
+    class SAS_Visibility_Meta_Boxes {
         public function __construct() {
             add_action('save_post', [$this, 'save_meta_boxes']);
             add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
@@ -26,7 +26,7 @@ if (!class_exists('SASV_Visibility_Meta_Boxes')) {
             );
 
             // Filter out the post types in $selected_excluded_type.
-            $filtered_post_types = SASV_Visibility_Helper::get_filtered_public_post_types();
+            $filtered_post_types = SAS_Visibility_Helper::get_filtered_public_post_types();
             foreach ($filtered_post_types as $post_type) {
                 add_meta_box('sasv_exclude_post', __('Internal Search Visibility', 'sasv'), [$this, 'render_exclude_post_meta_box'],
                     $post_type,
@@ -146,5 +146,5 @@ if (!class_exists('SASV_Visibility_Meta_Boxes')) {
             }
         }
     }
-    new SASV_Visibility_Meta_Boxes();
+    new SAS_Visibility_Meta_Boxes();
 }

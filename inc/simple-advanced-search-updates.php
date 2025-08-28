@@ -9,12 +9,12 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin Data
-$plugin_org = WP_COMMENT_TOOLBOX_PLUGIN_ORG;
-$plugin_slug = WP_COMMENT_TOOLBOX_PLUGIN_SLUG;
+$plugin_org = SAS_VISIBILITY_PLUGIN_ORG;
+$plugin_slug = SAS_VISIBILITY_PLUGIN_SLUG;
 $api_url = 'https://api.github.com/repos/' . $plugin_org . '/' . $plugin_slug . '/releases/latest';
 
-if (!class_exists('SASV_Visibility_Auto_Updates')) {
-    class WP_Comment_Toolbox_Plugin_Auto_Updates {
+if (!class_exists('SAS_Visibility_Auto_Updates')) {
+    class SAS_Visibility_Auto_Updates {
         private $api_endpoint = null;
         private $plugin_slug = null;
         private $plugin_file = null;
@@ -132,7 +132,7 @@ if (!class_exists('SASV_Visibility_Auto_Updates')) {
         }
 
         private function get_icon_urls() {
-            $base_url = WP_COMMENT_TOOLBOX_PLUGIN_URL . 'assets/';
+            $base_url = SAS_VISIBILITY_PLUGIN_URL . 'assets/';
 
             return array(
                 '1x'  => $base_url . 'icon-128x128.png',
@@ -141,7 +141,6 @@ if (!class_exists('SASV_Visibility_Auto_Updates')) {
             );
         }
     }
+    // Instantiate with all required parameters
+    new SAS_Visibility_Auto_Updates($api_url, $plugin_slug, SAS_VISIBILITY_PLUGIN_BASENAME);
 }
-
-// Instantiate with all required parameters
-new WP_Comment_Toolbox_Plugin_Auto_Updates($api_url, $plugin_slug, WP_COMMENT_TOOLBOX_PLUGIN_BASENAME);

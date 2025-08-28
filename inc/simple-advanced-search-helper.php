@@ -5,8 +5,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!class_exists('SASV_Visibility_Helper')) {
-    class SASV_Visibility_Helper {
+if (!class_exists('SAS_Visibility_Helper')) {
+    class SAS_Visibility_Helper {
         /**
          * Retrieves the list of public post types excluding the ones specified in the settings.
          *
