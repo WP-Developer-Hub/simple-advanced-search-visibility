@@ -35,7 +35,7 @@ class SASV_Visibility {
      */
     private function get_filtered_public_post_types() {
         $excluded_types = get_option('sasv_excluded_post_types', []);
-        $public_post_types = get_post_types(['public' => true]);
+        $public_post_types = get_post_types(['public' => true, 'exclude_from_search' => false]);
         return array_diff($public_post_types, $excluded_types);
     }
 
@@ -291,7 +291,7 @@ class SASV_Visibility {
         if (!is_admin()) {
             $post_has_password = get_option('sasv_exclude_password_protected', 0) ? false : null;
 
-            if ($query->is_search()) {
+            if ($query->is_search() && $query->is_main_query()) {
                 $filtered_post_types = $this->get_filtered_public_post_types();
 
                 if (!$query->is_singular()) {
@@ -301,7 +301,7 @@ class SASV_Visibility {
                 if ($filtered_post_types) {
                     $query->set('post_type', $filtered_post_types);
                 }
-                
+
                 $excluded_post_types = get_posts([
                     'post_type' => $query->query_vars['post_type'],
                     'meta_key' => 'sasv_exclude_post',
