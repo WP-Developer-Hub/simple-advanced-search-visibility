@@ -1,0 +1,59 @@
+name: Release Plugin
+
+on:
+  push:
+    branches:
+      - master   # or 'main' if that's your default branch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # <-- This is important for creating releases
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install zip and jq
+        run: sudo apt-get update && sudo apt-get install -y zip jq
+
+      - name: Prepare plugin folder
+        run: |
+          mkdir simple-advanced-search-visibility
+          shopt -s extglob
+          mv !(simple-advanced-search-visibility|.git|.github) simple-advanced-search-visibility/
+
+      - name: Get plugin version from simple-advanced-search-visibility.php
+        id: get_version
+        run: |
+          version=$(grep -iE '^[[:space:]]*\*?[[:space:]]*Version:' simple-advanced-search-visibility/simple-advanced-search-visibility.php | head -n1 | grep -oE '[0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?')
+          echo "PLUGIN_VERSION=$version" >> $GITHUB_ENV
+
+
+      - name: Get latest release tag
+        id: get_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          latest_tag=$(curl -s -H "Authorization: token $GH_TOKEN" "https://api.github.com/repos/${{ github.repository }}/releases/latest" | jq -r .tag_name)
+          echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
+
+      - name: Zip plugin folder
+        run: zip -r simple-advanced-search-visibility.zip simple-advanced-search-visibility
+
+      - name: Create GitHub Release if version changed
+        id: create_release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "v$PLUGIN_VERSION" != "$LATEST_TAG" ]; then
+            gh release create "v$PLUGIN_VERSION" simple-advanced-search-visibility.zip \
+              --title="v$PLUGIN_VERSION" \
+              --notes="Automated release for version $PLUGIN_VERSION"
+            echo "RELEASE_CREATED=true" >> $GITHUB_ENV
+          else
+            echo "No new release needed."
+            echo "RELEASE_CREATED=false" >> $GITHUB_ENV
+          fi

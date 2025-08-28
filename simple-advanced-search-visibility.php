@@ -31,6 +31,10 @@ if (!class_exists('SASV_Visibility')) {
             require_once(SASV_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-settings.php');
             require_once(SASV_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-meta-boxes.php');
 
+            if (defined('SASV_VISIBILITY_PLUGIN_IS_DEBUG_ON') && !SASV_VISIBILITY_PLUGIN_IS_DEBUG_ON) {
+                require_once(SASV_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-updates.php');
+            }
+
             add_action('wp_robots', [$this, 'add_noindex_meta_tag']);
             add_action('pre_get_posts', [$this, 'modify_search_query']);
             add_filter('plugin_action_links_' . SASV_VISIBILITY_PLUGIN_BASENAME, [$this, 'add_settings_link']);
