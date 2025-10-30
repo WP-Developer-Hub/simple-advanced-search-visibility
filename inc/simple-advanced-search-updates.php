@@ -9,18 +9,22 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin Data
+$plugin_url = SAS_VISIBILITY_PLUGIN_URL;
 $plugin_org = SAS_VISIBILITY_PLUGIN_ORG;
 $plugin_slug = SAS_VISIBILITY_PLUGIN_SLUG;
+$plugin_basename = SAS_VISIBILITY_PLUGIN_BASENAME;
 $api_url = 'https://api.github.com/repos/' . $plugin_org . '/' . $plugin_slug . '/releases/latest';
 
 if (!class_exists('SAS_Visibility_Auto_Updates')) {
     class SAS_Visibility_Auto_Updates {
         private $api_endpoint = null;
+        private $plugin_url = null;
         private $plugin_slug = null;
         private $plugin_file = null;
 
-        public function __construct($api_url = '', $plugin_slug = '', $plugin_file = '') {
+        public function __construct($api_url = '', $plugin_url = '',  $plugin_slug = '', $plugin_file = '') {
             $this->api_endpoint = $api_url;
+            $this->plugin_url = $plugin_url;
             $this->plugin_slug = $plugin_slug;
             $this->plugin_file = $plugin_file;
 
@@ -132,7 +136,7 @@ if (!class_exists('SAS_Visibility_Auto_Updates')) {
         }
 
         private function get_icon_urls() {
-            $base_url = SAS_VISIBILITY_PLUGIN_URL . 'assets/';
+            $base_url = $this->plugin_url . 'assets/';
 
             return array(
                 '1x'  => $base_url . 'icon-128x128.png',
@@ -142,5 +146,5 @@ if (!class_exists('SAS_Visibility_Auto_Updates')) {
         }
     }
     // Instantiate with all required parameters
-    new SAS_Visibility_Auto_Updates($api_url, $plugin_slug, SAS_VISIBILITY_PLUGIN_BASENAME);
+    new SAS_Visibility_Auto_Updates($api_url, $plugin_url, $plugin_slug, $plugin_basename);
 }
