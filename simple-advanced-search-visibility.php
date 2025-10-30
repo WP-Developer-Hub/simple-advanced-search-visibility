@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Simple Advanced Search Visibility
  * Description: Search Visibility Simplified - A plugin that excludes post types and individual posts from search results and adds "noindex" meta tags to pages.
- * Version: 2.0.0
+ * Version: 2.1.0
  * Author: DJABhipHop
  * Author URI: https://github.com/WP-Developer-Hub/
  * Plugin URI: https://github.com/WP-Developer-Hub/mple-advanced-search-visibility
