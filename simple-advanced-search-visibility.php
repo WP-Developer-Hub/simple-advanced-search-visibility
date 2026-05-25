@@ -30,8 +30,10 @@ if (!class_exists('SAS_VISIBILITY')) {
     class SAS_VISIBILITY {
         public function __construct() {
             require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-helper.php');
-            require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-settings.php');
-            require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-meta-boxes.php');
+            if(is_admin()) {
+                require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-settings.php');
+                require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-meta-boxes.php');
+            }
 
             if (defined('SAS_VISIBILITY_PLUGIN_IS_DEBUG_ON') && !SAS_VISIBILITY_PLUGIN_IS_DEBUG_ON) {
                 require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-updates.php');
