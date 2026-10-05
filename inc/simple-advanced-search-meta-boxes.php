@@ -47,31 +47,31 @@ if (!class_exists('SAS_Visibility_Meta_Boxes')) {
             <div class="main">
                 <p>
                     <label for="sasv_no_index">
-                        <strong><?php _e('Index this page?', 'sasv'); ?></strong>
+                        <strong><?php esc_html_e('Index this page?', 'sasv'); ?></strong>
                     </label>
                 </p>
                 <p>
                 <select id="sasv_no_index" name="sasv_no_index" class="widefat">
-                    <option value="yes" <?php selected($no_index, 'yes'); ?>><?php _e('Yes', 'sasv'); ?></option>
-                    <option value="no" <?php selected($no_index, 'no'); ?>><?php _e('No', 'sasv'); ?></option>
+                    <option value="yes" <?php selected($no_index, 'yes'); ?>><?php esc_html_e('Yes', 'sasv'); ?></option>
+                    <option value="no" <?php selected($no_index, 'no'); ?>><?php esc_html_e('No', 'sasv'); ?></option>
                 </select>
                 </p>
                 <p>
-                <?php _e('Selecting <strong>"No"</strong> will prevent this page from being indexed by search engines like Google, Bing, etc.', 'sasv'); ?>
+                <?php esc_html_e('Selecting <strong>"No"</strong> will prevent this page from being indexed by search engines like Google, Bing, etc.', 'sasv'); ?>
                 </p>
                 <p>
                     <label for="sasv_no_index">
-                        <strong><?php _e('Archive this page?', 'sasv'); ?></strong>
+                        <strong><?php esc_html_e('Archive this page?', 'sasv'); ?></strong>
                     </label>
                 </p>
                 <p>
                     <select id="sasv_no_archive" name="sasv_no_archive" class="widefat">
-                        <option value="yes" <?php selected($no_iarchive, 'yes'); ?>><?php _e('Yes', 'sasv'); ?></option>
-                        <option value="no" <?php selected($no_iarchive, 'no'); ?>><?php _e('No', 'sasv'); ?></option>
+                        <option value="yes" <?php selected($no_iarchive, 'yes'); ?>><?php esc_html_e('Yes', 'sasv'); ?></option>
+                        <option value="no" <?php selected($no_iarchive, 'no'); ?>><?php _esc_html_e('No', 'sasv'); ?></option>
                     </select>
                 </p>
                 <p>
-                    <?php _e('Selecting <strong>"No"</strong> will prevent this page from being archive by search engines like Google, Bing, etc.', 'sasv'); ?>
+                    <?php esc_html_e('Selecting <strong>"No"</strong> will prevent this page from being archive by search engines like Google, Bing, etc.', 'sasv'); ?>
                 </p>
             </div>
         <?php
@@ -96,12 +96,15 @@ if (!class_exists('SAS_Visibility_Meta_Boxes')) {
                 </p>
                 <p>
                     <select id="sasv_exclude_post" name="sasv_exclude_post" class="widefat">
-                        <option value="no" <?php selected($value, 'no'); ?>><?php _e('No', 'sasv'); ?></option>
-                        <option value="yes" <?php selected($value, 'yes'); ?>><?php _e('Yes', 'sasv'); ?></option>
+                        <option value="no" <?php selected($value, 'no'); ?>><?php esc_html_e('No', 'sasv'); ?></option>
+                        <option value="yes" <?php selected($value, 'yes'); ?>><?php esc_html_e('Yes', 'sasv'); ?></option>
                     </select>
                 </p>
                 <p>
-                    <?php echo sprintf(__('Selecting <strong>"Yes"</strong> will prevent this %s from being shown in WordPress search.', 'sasv'), strtolower($post_type_label)); ?>
+                    <?php
+                        /* translators: %s: lowercase post type label */
+                        echo esc_html(sprintf(__('Selecting <strong>"Yes"</strong> will prevent this %s from being shown in WordPress search.', 'sasv'), strtolower($post_type_label)));
+                    ?>
                 </p>
             </div>
         <?php
@@ -121,30 +124,33 @@ if (!class_exists('SAS_Visibility_Meta_Boxes')) {
             // Check if this is a valid request for the current screen
             $screen = get_current_screen();
             if ($screen && $screen->base !== 'page') {
-                if (isset($_POST['sasv_no_index_nonce']) && wp_verify_nonce($_POST['sasv_no_index_nonce'], 'sasv_no_index_nonce')) {
-                    if (isset($_POST['sasv_no_index'])) {
-                        update_post_meta($post_id, 'sasv_no_index', sanitize_text_field($_POST['sasv_no_index']));
-                    } else {
-                        delete_post_meta($post_id, 'sasv_no_index');
-                    }
-                    
-                    if (isset($_POST['sasv_no_archive'])) {
-                        update_post_meta($post_id, 'sasv_no_archive', sanitize_text_field($_POST['sasv_no_archive']));
-                    } else {
-                        delete_post_meta($post_id, 'sasv_no_archive');
+                if (isset($_POST['sasv_no_index_nonce'])) {
+                    if (wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['sasv_no_index_nonce'])), 'sasv_no_index_nonce')) {
+                        if (isset($_POST['sasv_no_index'])) {
+                            update_post_meta($post_id, 'sasv_no_index', sanitize_text_field(wp_unslash($_POST['sasv_no_index'])));
+                        } else {
+                            delete_post_meta($post_id, 'sasv_no_index');
+                        }
+
+                        if (isset($_POST['sasv_no_archive'])) {
+                            update_post_meta($post_id, 'sasv_no_archive', sanitize_text_field(wp_unslash($_POST['sasv_no_archive'])));
+                        } else {
+                            delete_post_meta($post_id, 'sasv_no_archive');
+                        }
                     }
                 }
             }
 
             // Verify sasv_exclude_post_nonce nonce
-            if (isset($_POST['sasv_exclude_post_nonce']) && wp_verify_nonce($_POST['sasv_exclude_post_nonce'], 'sasv_exclude_post_nonce')) {
-                if (isset($_POST['sasv_exclude_post'])) {
-                    update_post_meta($post_id, 'sasv_exclude_post', sanitize_text_field($_POST['sasv_exclude_post']));
-                } else {
-                    delete_post_meta($post_id, 'sasv_exclude_post');
+            if (isset($_POST['sasv_exclude_post_nonce'])) {
+                if (wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['sasv_exclude_post_nonce'])), 'sasv_exclude_post_nonce')) {
+                    if (isset($_POST['sasv_exclude_post'])) {
+                        update_post_meta($post_id, 'sasv_exclude_post', sanitize_text_field(wp_unslash($_POST['sasv_exclude_post'])));
+                    } else {
+                        delete_post_meta($post_id, 'sasv_exclude_post');
+                    }
                 }
             }
-        }
-    }
+        }    }
     new SAS_Visibility_Meta_Boxes();
 }

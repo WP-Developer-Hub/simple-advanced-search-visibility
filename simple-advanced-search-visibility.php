@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Simple Advanced Search Visibility
  * Description: Search Visibility Simplified - A plugin that excludes post types and individual posts from search results and adds "noindex" meta tags to pages.
- * Version: 2.1.1
+ * Version: 2.1.0
  * Author: DJABhipHop
  * Author URI: https://github.com/WP-Developer-Hub/
  * Plugin URI: https://github.com/WP-Developer-Hub/mple-advanced-search-visibility
@@ -34,7 +34,6 @@ if (!class_exists('SAS_VISIBILITY')) {
                 require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-settings.php');
                 require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-meta-boxes.php');
             }
-
             if (defined('SAS_VISIBILITY_PLUGIN_IS_DEBUG_ON') && !SAS_VISIBILITY_PLUGIN_IS_DEBUG_ON) {
                 require_once(SAS_VISIBILITY_PLUGIN_DIR . 'inc/simple-advanced-search-updates.php');
             }
@@ -82,12 +81,15 @@ if (!class_exists('SAS_VISIBILITY')) {
                         $query->set('post_type', $filtered_post_types);
                     }
 
-                    $excluded_post_types = get_posts([
+                    // @codingStandardsIgnoreStart
+                    $excluded_post_types = get_posts(array(
                          'post_type' => $query->query_vars['post_type'],
                          'meta_key' => 'sasv_exclude_post',
                          'meta_value' => 'yes',
                          'fields' => 'ids',
-                    ]);
+                    ));
+
+                    // @codingStandardsIgnoreEnd
                     $query->set('post__not_in', $excluded_post_types);
                 }
 

@@ -37,7 +37,6 @@ if (!class_exists('SAS_Visibility_Auto_Updates')) {
             }
             $plugin_data = get_plugin_data(WP_PLUGIN_DIR . '/' . $this->plugin_file);
             $version = isset($plugin_data['Version']) ? $plugin_data['Version'] : '';
-            error_log('[Updater] Local plugin version: ' . $version);
             return $version;
         }
 
@@ -79,7 +78,6 @@ if (!class_exists('SAS_Visibility_Auto_Updates')) {
             if (empty($package_url) && isset($release->zipball_url)) {
                 $package_url = $release->zipball_url;
             }
-            error_log('[Updater] Latest GitHub version: ' . $release->tag_name . ' | Package: ' . $package_url);
             return (object) array(
                 'version' => ltrim($release->tag_name, 'v'),
                 'package' => $package_url,
@@ -105,10 +103,10 @@ if (!class_exists('SAS_Visibility_Auto_Updates')) {
             }
             $local_version = $this->get_local_version();
             if (version_compare($release_info->version, $local_version, '>')) {
-                error_log('[Updater] Update available! Remote: ' . $release_info->version . ' Local: ' . $local_version);
+                error_log('[Updater] Update available!');
                 return $release_info;
             }
-            error_log('[Updater] No update available. Remote: ' . $release_info->version . ' Local: ' . $local_version);
+            error_log('[Updater] No update available.');
             return false;
         }
 
@@ -128,7 +126,6 @@ if (!class_exists('SAS_Visibility_Auto_Updates')) {
                     'slug' => $this->plugin_slug,
                     'icons' => $this->get_icon_urls(),
                 );
-                error_log('[Updater] Update array set in transient for ' . $this->plugin_file);
             } else {
                 error_log('[Updater] No update set in transient.');
             }

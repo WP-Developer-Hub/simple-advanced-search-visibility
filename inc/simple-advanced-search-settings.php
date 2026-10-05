@@ -18,7 +18,9 @@ if (!class_exists('SAS_Visibility_Settings')) {
          * This page allows site administrators to configure the search visibility settings.
          */
         public function add_settings_page() {
-            add_options_page( __('Global Search Settings', 'sasv'), __('Search Visibility', 'sasv'),
+            add_options_page(
+                __('Global Search Settings', 'sasv'),
+                __('Search Visibility', 'sasv'),
                 'manage_options',
                 'sas-visibility-settings',
                 [$this, 'render_settings_page']
@@ -82,7 +84,7 @@ if (!class_exists('SAS_Visibility_Settings')) {
         public function render_settings_page() {
         ?>
             <div class="wrap">
-                <h1><?php _e('Search Visibility Settings', 'sasv'); ?></h1>
+                <h1><?php esc_html_e('Search Visibility Settings', 'sasv'); ?></h1>
                 <form method="post" action="options.php">
                     <?php
                         settings_fields('sas_visibility_settings');
@@ -108,7 +110,7 @@ if (!class_exists('SAS_Visibility_Settings')) {
                         <td>
                             <label>
                                 <input type="checkbox" name="sasv_exclude_password_protected" value="1" <?php checked($value, 1); ?>>
-                                <?php _e('Exclude all password-protected posts from all query for all available post types.', 'sasv');?>
+                                <?php esc_html_e('Exclude all password-protected posts from all query for all available post types.', 'sasv');?>
                             </label>
                         </td>
                         <th scope="row" class="check-column" style="width: 0.2rem;"></th>

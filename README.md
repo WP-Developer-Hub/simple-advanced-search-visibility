@@ -2,6 +2,8 @@
 
 ********Author:******** DJABhipHop
 
+The Simple Advanced Search Visibility plugin allows WordPress administrators to easily control search visibility
+
 ## Description
 
 The Simple Advanced Search Visibility plugin allows WordPress administrators to easily control search visibility by excluding specific post types and individual posts from the search results, while also providing the option to add a "noindex" meta tag to pages and posts. This helps to control the indexability of content by search engines, making your website's search engine optimization (SEO) more granular.
