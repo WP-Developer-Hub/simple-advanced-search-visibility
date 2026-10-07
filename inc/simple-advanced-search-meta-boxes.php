@@ -67,7 +67,7 @@ if (!class_exists('SAS_Visibility_Meta_Boxes')) {
                 <p>
                     <select id="sasv_no_archive" name="sasv_no_archive" class="widefat">
                         <option value="yes" <?php selected($no_iarchive, 'yes'); ?>><?php esc_html_e('Yes', 'sasv'); ?></option>
-                        <option value="no" <?php selected($no_iarchive, 'no'); ?>><?php _esc_html_e('No', 'sasv'); ?></option>
+                        <option value="no" <?php selected($no_iarchive, 'no'); ?>><?php esc_html_e('No', 'sasv'); ?></option>
                     </select>
                 </p>
                 <p>
